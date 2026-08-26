@@ -1,27 +1,17 @@
-# API Design Scratchpad
+# API Design Checklist
 
-Quick notes for designing resource-oriented APIs.
+Quick notes from today's whiteboard session.
 
-## Naming
-- Use plural nouns for resources: `/users`, `/orders`
-- Prefer concrete names over generic
-- Keep nesting shallow: `/users/:id/orders` ok, avoid deep
+- Use JSON:API or plain JSON? Pick one and document it.
+- Version via URL path (`/v1/`) unless you have a strong reason not to.
+- Keep error responses consistent:
+  ```json
+  { "error": { "code": "invalid_param", "message": "..." } }
+  ```
+- Paginate list endpoints with `page` and `per_page`, return `Link` header.
+- Validate before touching the database.
+- Deprecate with `Sunset` header, not just docs.
 
-## Actions
-- Use HTTP methods for CRUD
-- For custom actions, use subresource or `POST /resource/:id/action`
-- Keep verbs out of URLs
-
-## Responses
-- Return consistent JSON envelope for errors
-- Include a request id in error responses
-- Use RFC 7807 problem details for errors
-
-## Versioning
-- Start with `/v1`
-- Only break backwards compatibility in major versions
-
-## Ruby notes
-- Use dry-struct for response schemas
-- Roda or Sinatra for small APIs
-- Document with OpenAPI 3.1
+Todo:
+- [ ] Write example responses for 400, 404, 422
+- [ ] Decide on id format: UUID vs integer
